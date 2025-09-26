@@ -1,12 +1,13 @@
-# HealthLetter - Agentic Healthcare Consultation Assistant
+# HealthLetter - Healthcare Consultation Assistant
 
 A SaaS platform that empowers healthcare professionals with AI-driven tools to streamline consultation workflows. 
+
 `HealthLetter` transforms doctors' raw visit notes into
  professional summaries, actionable next steps, and patient-friendly email communications, enhancing efficiency and patient engagement.
 
 ## Key Features
 
-- **AI-Powered Summarization**: Leverages OpenAI's GPT-4 to generate concise, professional summaries and actionable care plans from consultation notes.
+- **AI-Powered Summarization**: Leverages OpenAI's GPT-5 to generate concise, professional summaries and actionable care plans from consultation notes.
 
 - **Patient-Friendly Emails**: Crafts clear, empathetic emails for patients, summarizing visits and providing tailored recommendations.
 
@@ -28,68 +29,28 @@ A SaaS platform that empowers healthcare professionals with AI-driven tools to s
 
 ![Notes Screenshot](assets/notes.png)
 
+![Generation Screenshot](assets/generated.png)
+
 ---
 
 ## Tech Stack
 
 - **Frontend**: Next.js (React framework), Tailwind CSS, Framer Motion (animations)
+
 - **Backend**: FastAPI (Python), server-sent events for real-time streaming
-- **AI**: OpenAI GPT-4 for natural language processing
+
+- **AI**: OpenAI GPT-5 for natural language processing
+
 - **Authentication**: Clerk for secure user management
+
 - **Libraries**: React-Datepicker, React-Markdown, jsPDF
-- **Deployment**: Vercel (recommended for Next.js), Docker (optional for backend)
+
+- **Deployment**: Vercel (recommended for Next.js)
 
 ---
 
-## Getting Started
+## Example Usage
 
-### Prerequisites
-- Node.js (>= 18.x)
-- Python (>= 3.9)
-- Clerk account for authentication
-- OpenAI API key for AI functionalities
-- Git for version control
-
-### Installation
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/BenGJ10/Healthcare-Consultation-Assistant.git
-   cd Healthcare-Consultation-Assistant
-   ```
-
-2. **Frontend Setup**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-   - Configure Clerk and OpenAI API keys in `.env.local`:
-     ```env
-     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-     
-     CLERK_SECRET_KEY=your_clerk_secret_key
-     
-     NEXT_PUBLIC_OPENAI_API_KEY=your_openai_api_key
-     
-     OPENAI_API_KEY=your_openai_api_key
-     ```
-
-3. **Backend Setup**
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install fastapi uvicorn openai
-   uvicorn main:app --reload
-   ```
-
-4. **Run the Application**
-   - Start the frontend (`npm run dev`) and backend (`uvicorn main:app --reload`).
-
-   - Access the app at `http://localhost:3000`.
-
-### Example Usage
 1. **Log In**: Sign in using Clerk authentication.
 
 2. **Enter Consultation Details**:
@@ -139,7 +100,7 @@ healthcare-consultation-assistant/
 ```
 
 ## Contributing
-We welcome contributions! To contribute:
+To contribute:
 1. Fork the repository.
 2. Create a feature branch (`git checkout -b feature/your-feature`).
 3. Commit changes (`git commit -m 'Add your feature'`).
