@@ -3,6 +3,10 @@
         {
             "source": "/api/(.*)",
             "destination": "/api"
+        },
+        {
+            "source": "/send-email",
+            "destination": "/api"
         }
     ],
     "functions": {

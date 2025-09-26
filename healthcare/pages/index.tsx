@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from 'next/link';
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
@@ -10,8 +10,8 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8 sm:py-12">
         {/* Navigation */}
         <nav className="flex justify-between items-center mb-12 border-b border-gray-200 dark:border-gray-700 pb-4">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-blue-800 dark:text-blue-300">
-            MediNotes Pro
+          <h1 className="text-5xl sm:text-5xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text">
+            HealthLetter
           </h1>
           <div className="flex items-center gap-4">
             <SignedOut>
@@ -63,21 +63,21 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
             {[
               {
-                icon: "📋",
-                title: "Professional Summaries",
-                description: "Generate concise, accurate summaries for medical records from your consultation notes.",
-                gradient: "from-blue-500 to-blue-700"
+                icon: "🩺",
+                title: "AI-Tailored Visit Summaries",
+                description: "Convert a doctor’s raw notes into warm, professional summaries patients can easily follow.",
+                gradient: "from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-500"
               },
               {
-                icon: "✅",
-                title: "Actionable Next Steps",
-                description: "Receive clear, prioritized follow-up actions for every patient visit.",
+                icon: "🧘",
+                title: "Personalized Care Plans",
+                description: "Recommends medicines, lifestyle tips, and safe alternatives and more.",
                 gradient: "from-teal-500 to-teal-700"
               },
               {
-                icon: "📧",
-                title: "Patient Communications",
-                description: "Create empathetic, easy-to-understand email drafts for patients.",
+                icon: "📨",
+                title: "Seamless Patient Emails",
+                description: "Send empathetic, easy-to-understand emails directly to patients.",
                 gradient: "from-indigo-500 to-indigo-700"
               }
             ].map((feature, index) => (
@@ -130,3 +130,4 @@ export default function Home() {
     </main>
   );
 }
+
