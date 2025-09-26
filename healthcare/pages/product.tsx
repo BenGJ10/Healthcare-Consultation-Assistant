@@ -313,7 +313,7 @@ export default function Product() {
                                     {output}
                                 </ReactMarkdown>
                             </div>
-                            <div className="space-y-2">
+                            <div className="space-y-4">
                                 <div className="relative">
                                     <EnvelopeIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
                                     <input
@@ -324,12 +324,12 @@ export default function Product() {
                                         className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
                                     />
                                 </div>
-                                <div className="flex gap-4">
+                                <div className="flex gap-4 justify-center">
                                     <motion.button
                                         onClick={handleSendEmail}
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                                        className="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                                     >
                                         <EnvelopeIcon className="h-5 w-5 mr-2" />
                                         Send Email
@@ -338,7 +338,7 @@ export default function Product() {
                                         onClick={handleExportPDF}
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                                        className="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                                     >
                                         <ArrowDownTrayIcon className="h-5 w-5 mr-2" />
                                         Download PDF
@@ -347,7 +347,7 @@ export default function Product() {
                                         onClick={handleReset}
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="flex items-center bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                                        className="flex items-center bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                                     >
                                         <ArrowPathIcon className="h-5 w-5 mr-2" />
                                         Reset Form
