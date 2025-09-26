@@ -1,18 +1,19 @@
 import os
 from openai import OpenAI 
-from pydantic import BaseModel
-from fastapi.responses import StreamingResponse 
+from pydantic import BaseModel # for request body validation
+from fastapi.responses import StreamingResponse  # for streaming responses
 from fastapi import FastAPI, Depends, HTTPException  
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
-from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials  
+from sendgrid import SendGridAPIClient # for sending emails
+from sendgrid.helpers.mail import Mail # for constructing email messages
+from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials   # for clerk authentication
 
 app = FastAPI()
 
+# Clerk authentication setup
 clerk_config = ClerkConfig(jwks_url=os.getenv("CLERK_JWKS_URL"))
 clerk_guard = ClerkHTTPBearer(clerk_config)
 
-
+# BaseModel for request bodies
 class Visit(BaseModel):
     patient_name: str
     date_of_visit: str
@@ -29,6 +30,7 @@ class EmailRequest(BaseModel):
     clinic_name: str
     patient_name: str
 
+# System prompt for the AI model
 system_prompt = """
 You are provided with notes written by a doctor from a patient's visit.
 Your job is to generate a concise, patient-friendly email summarizing the visit and next steps.
@@ -46,8 +48,12 @@ Do not include a subject line or signature, as these will be added separately.
 The content must be 100% original, professional, warm, and written as if by a doctor, avoiding repetitive advice and overly technical or generic AI phrasing.
 """
 
-
+# Function to create user prompt 
 def user_prompt_for(visit: Visit) -> str:
+    """
+    Create a user prompt from the visit details. 
+    This prompt will be sent to the AI model to generate the email content.
+    """
     return f"""Create the draft email for:
                 Patient Name: {visit.patient_name}
                 Date of Visit: {visit.date_of_visit}
@@ -56,15 +62,20 @@ def user_prompt_for(visit: Visit) -> str:
                 Notes:
                 {visit.notes}"""
 
-
+# Endpoint to generate consultation summary
 @app.post("/api")
 def consultation_summary(
     visit: Visit,
     creds: HTTPAuthorizationCredentials = Depends(clerk_guard),
 ):
+    """
+    Generate a patient-friendly consultation summary email using OpenAI's GPT-5 model.
+    Streams the response back to the client as it's generated.
+    """
     user_id = creds.decoded["sub"]  # Available for tracking/auditing
-    client = OpenAI()
+    client = OpenAI()               # OpenAI client initialization
 
+    # Generate user prompt
     user_prompt = user_prompt_for(visit)
 
     prompt = [
@@ -72,12 +83,14 @@ def consultation_summary(
         {"role": "user", "content": user_prompt},
     ]
 
+    # Create a streaming chat completion
     stream = client.chat.completions.create(
         model = "gpt-5-nano",
         messages = prompt,
         stream = True,
     )
 
+    # Generator to yield streaming response
     def event_stream():
         for chunk in stream:
             text = chunk.choices[0].delta.content
@@ -88,13 +101,19 @@ def consultation_summary(
                     yield "data:  \n"
                 yield f"data: {lines[-1]}\n\n"
 
+    # 
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
+# Endpoint to send the consultation summary email
 @app.post("/send-email")
 async def send_email(
     email: EmailRequest,
     creds: HTTPAuthorizationCredentials = Depends(clerk_guard),
-):
+):  
+    """
+    Send a consultation summary email to the patient using SendGrid.
+    The email content is formatted in HTML for better readability.
+    """
     try:
         # Convert bullet points to HTML list
         content_lines = email.content.split("\n")
@@ -115,7 +134,7 @@ async def send_email(
         if in_bullet_section:
             formatted_content += "</ul>"
 
-
+        # Create the email message
         message = Mail(
             from_email=os.getenv("FROM_EMAIL", "no-reply@yourclinic.com"),
             to_emails=email.to_email,
@@ -138,11 +157,12 @@ async def send_email(
             </div>
             """
         )
+        # Send the email using SendGrid
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
-        response = sg.send(message)
-        return {"status": "Email sent", "response": response.status_code}
+        response = sg.send(message) # Get response for logging/debugging
+        return {"status": "Email sent", "response": response.status_code} 
     
     except Exception as e:
         import traceback
-        print(traceback.format_exc())
+        print(traceback.format_exc()) # Log the full traceback for debugging
         raise HTTPException(status_code=500, detail=f"Failed to send email: {str(e)}")
