@@ -92,12 +92,24 @@ healthcare-consultation-assistant/
 │   └── .env.local         # Frontend environment variables
 ├── backend/
 │   ├── api/      
-    |   ├── index.tsx      # FastAPI application
+    |   ├── index.py       # FastAPI application
+    |   ├── server.py      # FastAPI server
 │   ├── .env               # Backend environment variables
 ├── assets/
-│   └── screenshot.png     # App screenshot
+│   └── screenshots.png     # App screenshots
 └── README.md
 ```
+
+## Deployment
+
+- We have dockerized both the frontend and backend for easy deployment.
+
+- Using `AWS ECR` we have containerized the application for scalable deployment.
+
+- Using `AWS App Runner` we have deployed the application for easy access.
+
+![AWS App Runner](assets/aws-app-runner.png)
+
 
 ## Contributing
 To contribute:
